@@ -1,10 +1,8 @@
 package com.example.skyworthclub.visible_light_communication;
 
 import android.app.Activity;
-import android.os.PersistableBundle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.PersistableBundle;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
@@ -12,6 +10,7 @@ import com.amap.api.maps.MapView;
 public class MainActivity extends Activity {
 
     MapView mMapView = null;
+    //I get it!
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
