@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
