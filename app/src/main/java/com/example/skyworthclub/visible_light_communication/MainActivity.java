@@ -40,7 +40,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.xyj_main);
 
         mMapView = (MapView) findViewById(R.id.map);
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
@@ -64,7 +64,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationEnabled(true);
 
-        System.out.println("开始工作0");
+//        System.out.println("开始工作0");
 
 
     }
@@ -75,7 +75,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     @Override
     public void activate(OnLocationChangedListener listener) {
 
-        System.out.println("开始工作");
+//        System.out.println("开始工作");
         onLocationChangedListener = listener;
         if (mlocationClient == null) {
             //初始化定位
@@ -115,7 +115,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     @Override
     public void onLocationChanged(AMapLocation amapLocation) {
 
-        System.out.println("开始工作");
+//        System.out.println("开始工作");
         if (onLocationChangedListener != null && amapLocation != null) {
             if (amapLocation != null && amapLocation.getErrorCode() == 0) {
                 onLocationChangedListener.onLocationChanged(amapLocation);// 显示系统小蓝点
