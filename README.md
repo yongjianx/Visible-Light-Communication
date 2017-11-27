@@ -1,51 +1,10 @@
 # Visible-Light-Communication
-first: 请先在根目录下的.gitignore(不是app/.gitigore)配置如下\
-\# Gradel directory\
-.gradle\
-/build
+说明：\
+1、项目分类已经完成，请先clone到本地，java文件、布局文件和图片请放在自己相应的文件夹下，不要修改别人文件下的内容\
+2、.gitignore已经配置完成，如需添加其他内容，请注明（#表注释）\
+3、为使布局文件不重名，布局文件命名统一在前面加上自己的姓名，如：xyj_main.xml\
+4、如需为自己编辑的文件说明情况，请继续编辑README文件\
 
-\# Files for the ART/Dalvik VM\
-*.dex
-
-\# built application files\
-*.apk\
-*.ap_
-
-\# Java class files\
-*.class
-
-\# Local configuration file(sdk path, etc)\
-/local.properties
-
-\# idea files\
-/.idea/libraries\
-/.idea/workspace.xml\
-/.idea/gradle.xml\
-/.idea/misc.xml\
-.idea
-
-\# OSX files\
-.DS_Store
-
-\# intellij\
-*.iml
-
-\# android studio captures folder\
-/captures
-
-\#External native build folder generate in android studio 2.2 and later\
-.externalNativeBuild
-
-\# Generated files\
-bin/\
-gen/\
-out/
-
-and then clean the cached files it generates automatically\
-git rm -r --cached .\
-git add .
-
-finally\
-git commit -m ".gitignore works"
-
+目前已知的情况：\
+1、模拟器不能实现定位，如需测试定位功能，请用真机测试
 
