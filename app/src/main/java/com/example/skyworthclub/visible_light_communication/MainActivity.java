@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -62,9 +63,10 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
 
     private EditText editText;
     private ListView listView;
+    private TextView textView;
     private SearchAdapter searchAdapter;
     List<HashMap<String,String>> searchList;
-    private String currentCity = "广州";
+    private String currentCity;
 
 
     OnLocationChangedListener onLocationChangedListener;
@@ -93,7 +95,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
 //        myLocationStyle.interval(4000);
 
-        //连续定位、蓝点不会移动到地图中心点，定位点依照设备方向旋转，并且蓝点会跟随设备移动。
+        //定位一次，且将视角移动到地图中心点。
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
 
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
@@ -103,7 +105,10 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         //隐藏左下角的"高德地图"logo
         UiSettings uiSettings = aMap.getUiSettings();
         uiSettings.setLogoBottomMargin(-50);
+//        uiSettings.setScaleControlsEnabled(true);
+//        Log.e("TAG", "缩放功能"+uiSettings.isScaleControlsEnabled()+"");
 
+//        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
 
         getAdress(position[0], position[1]);
         getAdress(position[2], position[3]);
@@ -116,6 +121,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         mMapView = (MapView) findViewById(R.id.map);
         editText = (EditText)findViewById(R.id.xyj_editText);
         listView = (ListView)findViewById(R.id.xyj_listView);
+        textView = (TextView)findViewById(R.id.xyj_currentCity);
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
@@ -123,7 +129,6 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         editText.addTextChangedListener(this);
         listView.setOnItemClickListener(this);
     }
-
 
 
     /**
@@ -175,7 +180,12 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
 //        System.out.println("开始工作");
         if (onLocationChangedListener != null && amapLocation != null) {
             if (amapLocation != null && amapLocation.getErrorCode() == 0) {
-                onLocationChangedListener.onLocationChanged(amapLocation);// 显示系统小蓝点
+                // 显示系统小蓝点
+                onLocationChangedListener.onLocationChanged(amapLocation);
+                //获取当前城市
+                currentCity = amapLocation.getCity();
+                textView.setText(currentCity);
+                Log.e("TAG","当前城市："+currentCity);
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
                 Log.e("AmapErr",errText);
@@ -233,7 +243,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title(x+"").snippet(result));
         //改变可视区域为指定位置
         //CameraPosition4个参数分别为位置，缩放级别，目标可视区域倾斜度，可视区域指向方向（正北逆时针算起，0-360）
-        cameraUpdate= CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng,10,0,30));
+        cameraUpdate= CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng,12,0,30));
         aMap.moveCamera(cameraUpdate);//地图移向指定区域
 
         aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
@@ -293,7 +303,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
                 hashMap.put("name",list.get(i).getName());
                 //将地址信息取出放入HashMap中
                 hashMap.put("address",list.get(i).getDistrict());
-//                Log.e("TAG", list.get(i).getPoint().toString());
+                Log.e("TAG", list.get(i).getPoint().toString());
                 //解析返回的经纬度
                 String latlonPoint = list.get(i).getPoint().toString();
                 //经度
