@@ -10,7 +10,13 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -29,22 +35,37 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
+import com.amap.api.services.help.Inputtips;
+import com.amap.api.services.help.InputtipsQuery;
+import com.amap.api.services.help.Tip;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends Activity  implements LocationSource, AMapLocationListener{
+public class MainActivity extends Activity  implements LocationSource, AMapLocationListener,
+        TextWatcher, AdapterView.OnItemClickListener, Inputtips.InputtipsListener{
 
     private MapView mMapView;
     //初始化地图控制器对象
     private AMap aMap;
     private CameraUpdate cameraUpdate;
+
+    private EditText editText;
+    private ListView listView;
+    private SearchAdapter searchAdapter;
+    List<HashMap<String,String>> searchList;
+    private String currentCity = "广州";
+
 
     OnLocationChangedListener onLocationChangedListener;
     AMapLocationClient mlocationClient;
@@ -57,13 +78,10 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.xyj_main);
 
-        mMapView = (MapView) findViewById(R.id.map);
+        init();//初始化
+
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
-
-        if (aMap == null) {
-            aMap = mMapView.getMap();
-        }
 
         // 设置定位监听，必须放在前面才能实现监听
         aMap.setLocationSource(this);
@@ -92,6 +110,20 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
 
 
     }
+
+    private void init(){
+        mMapView = (MapView) findViewById(R.id.map);
+        editText = (EditText)findViewById(R.id.xyj_editText);
+        listView = (ListView)findViewById(R.id.xyj_listView);
+        if (aMap == null) {
+            aMap = mMapView.getMap();
+        }
+
+        editText.addTextChangedListener(this);
+        listView.setOnItemClickListener(this);
+    }
+
+
 
     /**
      * 激活定位
@@ -150,15 +182,6 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
-        mMapView.onDestroy();
-        if(null != mlocationClient){
-            mlocationClient.onDestroy();
-        }
-    }
 
     /*
     解释指定坐标的地址
@@ -219,6 +242,77 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
             }
         });
 
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        Log.e("TAG", "你看见了吗");
+        //获取自动提示输入框的内容
+        String content = s.toString().trim();
+        if (content == null){
+//            listView.removeAllViews();
+            return;
+        }
+        //初始化一个输入提示搜索对象，并传入参数
+        InputtipsQuery inputtipsQuery = new InputtipsQuery(content,currentCity);
+        //将获取到的结果进行城市限制筛选
+        inputtipsQuery.setCityLimit(true);
+        //定义一个输入提示对象，传入当前上下文和搜索对象
+        Inputtips inputtips=new Inputtips(this,inputtipsQuery);
+        //设置输入提示查询的监听，实现输入提示的监听方法onGetInputtips()
+        inputtips.setInputtipsListener(this);
+        //输入查询提示的异步接口实现
+        inputtips.requestInputtipsAsyn();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void onGetInputtips(List<Tip> list, int returnCode) {
+        //如果输入提示搜索成功
+        if(returnCode== AMapException.CODE_AMAP_SUCCESS){
+            searchList = new ArrayList<HashMap<String, String>>() ;
+            for (int i=0;i<list.size();i++){
+                HashMap<String,String> hashMap=new HashMap<String, String>();
+                hashMap.put("name",list.get(i).getName());
+                //将地址信息取出放入HashMap中
+                hashMap.put("address",list.get(i).getDistrict());
+                //将HashMap放入表中
+                searchList.add(hashMap);
+
+            }
+            //新建一个适配器
+            searchAdapter=new SearchAdapter(this, searchList);
+            //为listview适配
+            listView.setAdapter(searchAdapter);
+
+        }else{
+            Log.e("TAG", "没错，这个是错的返回码"+returnCode);
+
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
+        mMapView.onDestroy();
+        if(null != mlocationClient){
+            mlocationClient.onDestroy();
+        }
     }
 
     @Override
