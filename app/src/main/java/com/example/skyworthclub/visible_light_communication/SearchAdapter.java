@@ -1,10 +1,14 @@
 package com.example.skyworthclub.visible_light_communication;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,11 +22,13 @@ import java.util.List;
 public class SearchAdapter extends BaseAdapter {
     private List<HashMap<String, String>> addressDatas;
     private LayoutInflater layoutInflater;
+    private Bitmap bitmap;
 
     public SearchAdapter(Context context, List<HashMap<String, String>> datas){
         layoutInflater = LayoutInflater.from(context);
         addressDatas = new ArrayList<HashMap<String, String>>();
         addressDatas = datas;
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.map);
     }
 
     @Override
@@ -48,6 +54,7 @@ public class SearchAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.xyj_search_list_item, null);
             viewHolder.title = (TextView)convertView.findViewById(R.id.xyj_title);
             viewHolder.text = (TextView)convertView.findViewById(R.id.xyj_text);
+            viewHolder.imageView = (ImageView)convertView.findViewById(R.id.xyj_map);
             convertView.setTag(viewHolder);
 
         }
@@ -56,6 +63,7 @@ public class SearchAdapter extends BaseAdapter {
         }
         viewHolder.title.setText(addressDatas.get(position).get("name"));
         viewHolder.text.setText(addressDatas.get(position).get("address"));
+        viewHolder.imageView.setImageBitmap(bitmap);
 
         return convertView;
     }
@@ -63,5 +71,6 @@ public class SearchAdapter extends BaseAdapter {
     private static class ViewHolder{
         private TextView title;
         private TextView text;
+        private ImageView imageView;
     }
 }
