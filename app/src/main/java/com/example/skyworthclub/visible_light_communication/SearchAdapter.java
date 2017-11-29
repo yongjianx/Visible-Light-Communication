@@ -3,7 +3,6 @@ package com.example.skyworthclub.visible_light_communication;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ public class SearchAdapter extends BaseAdapter {
         layoutInflater = LayoutInflater.from(context);
         addressDatas = new ArrayList<HashMap<String, String>>();
         addressDatas = datas;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.map);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.xyj_map);
     }
 
     @Override
