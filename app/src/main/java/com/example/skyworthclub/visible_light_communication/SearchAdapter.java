@@ -15,10 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by skyworthclub on 2017/11/27.
- */
-
 public class SearchAdapter extends BaseAdapter {
     private List<HashMap<String, String>> addressDatas;
     private LayoutInflater layoutInflater;
