@@ -28,37 +28,37 @@ public class Controller extends AppCompatActivity {
         //判断想要打开哪个商城的室内地图，获取并初始化
         switch (position){
             case 0:
-                setContentView(R.layout.weiduoli_layout);
+                setContentView(R.layout.cy_weiduoli_layout);
                 imageView = (ImageView) findViewById(R.id.iv_wdl);
                 imageView.setImageLevel(2);
                 actionBar.setTitle("维多利广场");
                 break;
             case 1:
-                setContentView(R.layout.guangbaibaihuo_layout);
+                setContentView(R.layout.cy_guangbaibaihuo_layout);
                 imageView = (ImageView) findViewById(R.id.iv_gbbh);
                 imageView.setImageLevel(2);
                 actionBar.setTitle("广百百货");
                 break;
             case 2:
-                setContentView(R.layout.tianhecheng_layout);
+                setContentView(R.layout.cy_tianhecheng_layout);
                 imageView = (ImageView) findViewById(R.id.iv_thc);
                 imageView.setImageLevel(2);
                 actionBar.setTitle("天河城");
                 break;
             case 3:
-                setContentView(R.layout.zhengjiaguangchang_layout);
+                setContentView(R.layout.cy_zhengjiaguangchang_layout);
                 imageView = (ImageView) findViewById(R.id.iv_zjgc);
                 imageView.setImageLevel(2);
                 actionBar.setTitle("正佳广场");
                 break;
             case 4:
-                setContentView(R.layout.wanlinghui_layout);
+                setContentView(R.layout.cy_wanlinghui_layout);
                 imageView = (ImageView) findViewById(R.id.iv_wlh);
                 imageView.setImageLevel(2);
                 actionBar.setTitle("万菱汇");
                 break;
             case 5:
-                setContentView(R.layout.taiguhui_layout);
+                setContentView(R.layout.cy_taiguhui_layout);
                 imageView = (ImageView) findViewById(R.id.iv_tgh);
                 imageView.setImageLevel(2);
                 actionBar.setTitle("太古汇");
