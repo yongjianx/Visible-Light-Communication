@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/taiguihui_1"
+        android:minLevel="1"
+        android:maxLevel="3">
+    </item>
+
+    <item
+        android:drawable="@drawable/taiguihui_2"
+        android:minLevel="3"
+        android:maxLevel="5">
+    </item>
+
+    <item
+        android:drawable="@drawable/taiguihui_3"
+        android:minLevel="5"
+        android:maxLevel="7">
+    </item>
+
+</level-list>
