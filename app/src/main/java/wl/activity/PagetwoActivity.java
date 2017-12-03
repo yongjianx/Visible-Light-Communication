@@ -1,13 +1,16 @@
 package wl.activity;
 
 import android.content.Intent;
+import android.graphics.pdf.PdfDocument;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.skyworthclub.visible_light_communication.R;
+import com.example.skyworthclub.visible_light_communication.xyj_activity.MainActivity;
 
+import cy.activity.ControllerActivity;
 import ht.activity.SaleActivity;
 
 public class PagetwoActivity extends AppCompatActivity implements View.OnClickListener{
@@ -79,6 +82,9 @@ public class PagetwoActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.txt_home:
                 selected();
                 tabHome.setSelected(true);
+                Intent intentMain = new Intent(PagetwoActivity.this, MainActivity.class);
+                startActivity(intentMain);
+                finish();
                 break;
 
             case R.id.txt_sell:

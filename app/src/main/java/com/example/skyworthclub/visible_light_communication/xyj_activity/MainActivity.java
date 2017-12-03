@@ -1,6 +1,7 @@
 package com.example.skyworthclub.visible_light_communication.xyj_activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -45,6 +46,8 @@ import com.example.skyworthclub.visible_light_communication.xyj_adapter.SearchAd
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import wl.activity.PagetwoActivity;
 
 public class MainActivity extends Activity  implements LocationSource, AMapLocationListener,
         TextWatcher, AdapterView.OnItemClickListener, Inputtips.InputtipsListener{
@@ -104,8 +107,8 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
 //        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
 
         getAdress(position[0], position[1]);
-        getAdress(position[2], position[3]);
-        getAdress(position[4],position[5]);
+        //getAdress(position[2], position[3]);
+        //getAdress(position[4],position[5]);
 
         editText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -270,8 +273,14 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String temp = marker + "";
-                Log.e("TAG", "marker的标题："+marker.getTitle()+"大小："+temp.length());
+                Log.e("TAG", "marker的标题："+marker.getPosition()+"大小："+temp.length());
                 Toast.makeText(MainActivity.this,"点击指定位置",Toast.LENGTH_SHORT).show();
+                if (marker.getTitle().equals("23.13157972")){
+//                    Log.e("TAG", "大家好，我进来了");
+                    Intent intent = new Intent(MainActivity.this, PagetwoActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 return false;//false 点击marker marker会移动到地图中心，true则不会
             }
         });
