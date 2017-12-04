@@ -214,8 +214,6 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
                 Log.e("AmapErr",errText);
-//                textView.setText("暂无数据");
-//                Toast.makeText(MainActivity.this, "请检查网络状态", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -280,10 +278,10 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
                 Toast.makeText(MainActivity.this,"点击指定位置",Toast.LENGTH_SHORT).show();
                 if (marker.getTitle().equals("23.13157972")){
 //                    Log.e("TAG", "大家好，我进来了");
+                    //跳转界面二
                     Intent intent = new Intent(MainActivity.this, PagetwoActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
-//                    finish();
                 }
                 return false;//false 点击marker marker会移动到地图中心，true则不会
             }

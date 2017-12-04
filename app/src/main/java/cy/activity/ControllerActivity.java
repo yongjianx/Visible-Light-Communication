@@ -22,9 +22,10 @@ public class ControllerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
         Intent intent = getIntent();
         int position = intent.getIntExtra("key_number", -1);
-        ActionBar actionBar = getSupportActionBar();
+
         switch (position){
             case 0:
                 setContentView(R.layout.weiduoli_layout);
