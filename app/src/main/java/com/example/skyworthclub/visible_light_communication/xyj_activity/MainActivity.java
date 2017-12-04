@@ -146,6 +146,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
+        textView.setText("无网络");
 
         editText.addTextChangedListener(this);
         listView.setOnItemClickListener(this);
@@ -158,7 +159,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     @Override
     public void activate(OnLocationChangedListener listener) {
 
-//        System.out.println("开始工作");
+//        System.out.println("激活定位");
         onLocationChangedListener = listener;
         if (mlocationClient == null) {
             //初始化定位
@@ -277,9 +278,10 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
                 Toast.makeText(MainActivity.this,"点击指定位置",Toast.LENGTH_SHORT).show();
                 if (marker.getTitle().equals("23.13157972")){
 //                    Log.e("TAG", "大家好，我进来了");
+                    //跳转界面二
                     Intent intent = new Intent(MainActivity.this, PagetwoActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
-                    finish();
                 }
                 return false;//false 点击marker marker会移动到地图中心，true则不会
             }
@@ -391,6 +393,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     protected void onResume() {
         super.onResume();
         //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
+        Log.e("TAG", "重新开始");
         mMapView.onResume();
     }
 
@@ -398,6 +401,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     protected void onPause() {
         super.onPause();
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
+        Log.e("TAG", "进入下一个界面，暂停");
         mMapView.onPause();
     }
 

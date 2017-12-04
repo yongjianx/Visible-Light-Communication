@@ -23,8 +23,10 @@ public class ControllerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
         Intent intent = getIntent();
         int position = intent.getIntExtra("key_number", 3);
+
 
         switch (position){
             case 0:
