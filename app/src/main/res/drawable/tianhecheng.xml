@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/tianhecheng_1"
+        android:minLevel="1"
+        android:maxLevel="3">
+    </item>
+
+    <item
+        android:drawable="@drawable/tianhecheng_2"
+        android:minLevel="3"
+        android:maxLevel="5">
+    </item>
+
+    <item
+        android:drawable="@drawable/tianhecheng_3"
+        android:minLevel="5"
+        android:maxLevel="7">
+    </item>
+
+    <item
+        android:drawable="@drawable/tianhecheng_4"
+        android:minLevel="7"
+        android:maxLevel="9">
+    </item>
+
+    <item
+        android:drawable="@drawable/tianhecheng_5"
+        android:minLevel="9"
+        android:maxLevel="11">
+    </item>
+
+    <item
+        android:drawable="@drawable/tianhecheng_6"
+        android:minLevel="11"
+        android:maxLevel="13">
+    </item>
+
+    <item
+        android:drawable="@drawable/tianhecheng_7"
+        android:minLevel="13"
+        android:maxLevel="15">
+    </item>
+
+</level-list>

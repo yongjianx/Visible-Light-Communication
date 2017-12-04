@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/zhengjiaguangchang_b1"
+        android:minLevel="101"
+        android:maxLevel="103">
+    </item>
+
+    <item
+        android:drawable="@drawable/zhengjiaguangchang_1"
+        android:minLevel="1"
+        android:maxLevel="3">
+    </item>
+
+    <item
+        android:drawable="@drawable/zhengjiaguangchang_2"
+        android:minLevel="3"
+        android:maxLevel="5">
+    </item>
+
+    <item
+        android:drawable="@drawable/zhengjiaguangchang_3"
+        android:minLevel="5"
+        android:maxLevel="7">
+    </item>
+
+    <item
+        android:drawable="@drawable/zhengjiaguangchang_4"
+        android:minLevel="7"
+        android:maxLevel="9">
+    </item>
+
+    <item
+        android:drawable="@drawable/zhengjiaguangchang_5"
+        android:minLevel="9"
+        android:maxLevel="11">
+    </item>
+
+    <item
+        android:drawable="@drawable/zhengjiaguangchang_6"
+        android:minLevel="11"
+        android:maxLevel="13">
+    </item>
+
+    <item
+        android:drawable="@drawable/zhengjiaguangchang_7"
+        android:minLevel="13"
+        android:maxLevel="15">
+    </item>
+
+</level-list>
