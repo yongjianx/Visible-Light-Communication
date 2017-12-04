@@ -83,6 +83,7 @@ public class PagetwoActivity extends AppCompatActivity implements View.OnClickLi
                 selected();
                 tabHome.setSelected(true);
                 Intent intentMain = new Intent(PagetwoActivity.this, MainActivity.class);
+                intentMain.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intentMain);
                 finish();
                 break;
