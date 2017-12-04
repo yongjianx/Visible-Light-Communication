@@ -15,6 +15,12 @@
         android:orientation="vertical">
 
         <Button
+            android:onClick="B1"
+            android:text="@string/B1"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <Button
             android:onClick="F1"
             android:text="@string/F1"
             android:layout_width="50dp"

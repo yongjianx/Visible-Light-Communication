@@ -98,6 +98,9 @@ public class PagetwoActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.txt_follow:
                 selected_follow();
                 tabFollow.setSelected(true);
+                Intent intent_ = new Intent(PagetwoActivity.this, ControllerActivity.class);
+                intent_.putExtra("key_number", 3);
+                startActivity(intent_);
                 break;
 
             case R.id.txt_user:
