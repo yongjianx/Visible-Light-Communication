@@ -1,15 +1,16 @@
-package com.example.skyworthclub.visible_light_communication;
+package com.example.skyworthclub.visible_light_communication.xyj_adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.skyworthclub.visible_light_communication.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class SearchAdapter extends BaseAdapter {
         layoutInflater = LayoutInflater.from(context);
         addressDatas = new ArrayList<HashMap<String, String>>();
         addressDatas = datas;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.map);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.xyj_map);
     }
 
     @Override

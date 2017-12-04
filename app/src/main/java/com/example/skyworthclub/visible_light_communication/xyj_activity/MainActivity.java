@@ -1,18 +1,14 @@
-package com.example.skyworthclub.visible_light_communication;
+package com.example.skyworthclub.visible_light_communication.xyj_activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.LocationManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -30,7 +26,6 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -45,13 +40,14 @@ import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.InputtipsQuery;
 import com.amap.api.services.help.Tip;
+import com.example.skyworthclub.visible_light_communication.R;
+import com.example.skyworthclub.visible_light_communication.xyj_adapter.SearchAdapter;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+
+import wl.activity.PagetwoActivity;
 
 public class MainActivity extends Activity  implements LocationSource, AMapLocationListener,
         TextWatcher, AdapterView.OnItemClickListener, Inputtips.InputtipsListener{
@@ -65,7 +61,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     private ListView listView;
     private TextView textView;
     private SearchAdapter searchAdapter;
-    List<HashMap<String,String>> searchList;
+    List<HashMap<String,String>> searchList = new ArrayList<HashMap<String, String>>();;
     private String currentCity;
 
 
@@ -111,9 +107,34 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
 //        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
 
         getAdress(position[0], position[1]);
-        getAdress(position[2], position[3]);
-        getAdress(position[4],position[5]);
+        //getAdress(position[2], position[3]);
+        //getAdress(position[4],position[5]);
 
+        editText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //存放drawableLeft，Right，Top，Bottom四个图片资源对象
+                //index=2 表示的是 drawableRight 图片资源对象
+                Drawable drawable = editText.getCompoundDrawables()[2];
+                if (drawable == null)
+                    return false;
+                if (event.getAction() == MotionEvent.ACTION_UP){
+                    if (event.getX() > editText.getWidth()-editText.getPaddingRight()-drawable.getIntrinsicWidth()){
+
+//                        Log.e("TAG","为什么有进来了");
+                        if (editText.getText().toString() != null){
+                            editText.clearFocus();
+                            editText.setText("");
+                            searchList.clear();
+                            searchAdapter.notifyDataSetChanged();
+                        }
+
+                    }
+                    return false;
+                }
+                return false;
+            }
+        });
 
     }
 
@@ -186,6 +207,9 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
                 currentCity = amapLocation.getCity();
                 textView.setText(currentCity);
                 Log.e("TAG","当前城市："+currentCity);
+                Log.e("TAG",""+searchList.size()+"");
+                Log.e("TAG", "editText的大小"+editText.getText().toString());
+
             } else {
                 String errText = "定位失败," + amapLocation.getErrorCode()+ ": " + amapLocation.getErrorInfo();
                 Log.e("AmapErr",errText);
@@ -200,8 +224,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     @param y 纬度
      */
     public void getAdress(final double x, final double y){
-        Log.e("TAG", "调用getAdress");
-
+//        Log.e("TAG", "调用getAdress");
         //地址查询器
         GeocodeSearch geocodeSearch = new GeocodeSearch(this);
         //设置查询参数,
@@ -213,7 +236,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
             @Override
             public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
                 String result = regeocodeResult.getRegeocodeAddress().getFormatAddress();
-                Log.e("Shunxu","获得请求结果");
+                Log.e("TAG","获得请求结果");
                 makepoint(x, y, result);
             }
             //根据地址获取坐标信息是调用
@@ -234,7 +257,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     @param result  地点名称
      */
     public void makepoint(double x, double y, String result){
-        Log.e("Shunxu","开始绘图");
+        Log.e("TAG","开始绘图");
         //北纬39.22，东经116.39，为负则表示相反方向
         LatLng latLng=new LatLng(x, y);
         Log.e("地址",result);
@@ -243,15 +266,21 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title(x+"").snippet(result));
         //改变可视区域为指定位置
         //CameraPosition4个参数分别为位置，缩放级别，目标可视区域倾斜度，可视区域指向方向（正北逆时针算起，0-360）
-        cameraUpdate= CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng,12,0,30));
+        cameraUpdate= CameraUpdateFactory.newCameraPosition(new CameraPosition(latLng,14,0,30));
         aMap.moveCamera(cameraUpdate);//地图移向指定区域
 
         aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String temp = marker + "";
-                Log.e("TAG", "这个是什么"+marker.getTitle()+"你爱我"+temp.length());
+                Log.e("TAG", "marker的标题："+marker.getPosition()+"大小："+temp.length());
                 Toast.makeText(MainActivity.this,"点击指定位置",Toast.LENGTH_SHORT).show();
+                if (marker.getTitle().equals("23.13157972")){
+//                    Log.e("TAG", "大家好，我进来了");
+                    Intent intent = new Intent(MainActivity.this, PagetwoActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 return false;//false 点击marker marker会移动到地图中心，true则不会
             }
         });
@@ -259,7 +288,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         aMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(MainActivity.this,"点击了我的地点",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"点击了InfoWidow的地点",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -272,7 +301,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-//        Log.e("TAG", "你看见了吗");
+        Log.e("TAG", "editText的内容改变了");
         //获取自动提示输入框的内容
         String content = s.toString().trim();
 
@@ -297,7 +326,8 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     public void onGetInputtips(List<Tip> list, int returnCode) {
         //如果输入提示搜索成功
         if(returnCode == AMapException.CODE_AMAP_SUCCESS){
-            searchList = new ArrayList<HashMap<String, String>>();
+            //每次搜索时都先把原来的searchList内容清掉
+            searchList.clear();
             for (int i=0;i<list.size();i++){
                 HashMap<String,String> hashMap = new HashMap<String, String>();
                 hashMap.put("name",list.get(i).getName());
@@ -328,7 +358,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
             //清空原来的所有item
             searchList.clear();
             searchAdapter.notifyDataSetChanged();
-            Log.e("TAG", "没错，这个是错的返回码"+returnCode);
+            Log.e("TAG", "editText内容为空时返回的错误返回码:"+returnCode);
         }
     }
 
@@ -337,13 +367,15 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         double x = Double.parseDouble(searchList.get(position).get("x"));
         double y = Double.parseDouble(searchList.get(position).get("y"));
         String detailAddress = searchList.get(position).get("detailAddress");
-        Log.e("TAG","经度"+x+"纬度"+y);
+        Log.e("TAG","点击listView地点的经度:"+x+"   纬度:"+y);
         //在地图上显示我点击的地点
         makepoint(x, y, detailAddress);
         //把listView清空
         searchList.clear();
+//        Log.e("TAG", "searchList的大小："+searchList.size());
         searchAdapter.notifyDataSetChanged();
     }
+
 
     @Override
     protected void onDestroy() {

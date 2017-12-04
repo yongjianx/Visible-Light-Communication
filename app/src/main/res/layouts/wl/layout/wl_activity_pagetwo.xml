@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="wl.activity.PagetwoActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/wl_activity_page2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.wulin.page2.Page2Activity">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                android:background="@drawable/zhengjia_0" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="67dp"
+                android:background="@drawable/zhengjia_1" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:background="@drawable/zhengjia_2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_menu1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/linearLayout1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg2"
+                android:paddingLeft="10dp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_toilet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/toilet"
+                android:gravity="center_vertical"
+                android:text="      厕所"
+                android:drawableRight="@drawable/tab_menu_choose"
+                android:paddingRight="10dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg2"
+                android:paddingLeft="10dp">
+            </TextView>
+
+
+            <TextView
+                android:id="@+id/txt_elevator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/elevator"
+                android:gravity="center_vertical"
+                android:text="      扶梯"
+                android:drawableRight="@drawable/tab_menu_choose"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg2"
+                android:paddingLeft="10dp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_elevator2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/elevator1"
+                android:gravity="center_vertical"
+                android:text="      电梯"
+                android:drawableRight="@drawable/tab_menu_choose"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg2"
+                android:paddingLeft="10dp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/exit2"
+                android:gravity="center_vertical"
+                android:text="      出口"
+                android:drawableRight="@drawable/tab_menu_choose"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg2"
+                android:paddingLeft="10dp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/txt_sign"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+                android:paddingLeft="10dp"
+                android:drawableLeft="@drawable/sign2"
+                android:gravity="center_vertical"
+                android:text="      标记"
+                android:drawableRight="@drawable/tab_menu_choose"
+                android:paddingRight="10dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+            <TextView
+                android:id="@+id/txt_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+
+                android:drawableTop="@drawable/tab_menu_home"
+                android:gravity="center"
+                android:textColor="@drawable/tab_menu_home_text"
+                android:text="首页"/>
+
+            <TextView
+                android:id="@+id/txt_sell"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+
+                android:drawableTop="@drawable/tab_menu_sell"
+                android:gravity="center"
+                android:textColor="@drawable/tab_menu_sell_text"
+                android:text="促销"/>
+
+
+            <TextView
+                android:id="@+id/txt_follow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+
+                android:drawableTop="@drawable/tab_menu_follow"
+                android:gravity="center"
+                android:textColor="@drawable/tab_menu_follow_text"
+                android:text="导航"/>
+
+            <TextView
+                android:id="@+id/txt_user"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tab_menu_bg"
+
+                android:drawableTop="@drawable/tab_menu_user"
+                android:gravity="center"
+                android:textColor="@drawable/tab_menu_user_text"
+                android:text="用户"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
