@@ -40,8 +40,10 @@
         <service android:name="com.amap.api.location.APSService" />
 
         <activity android:name="ht.activity.SaleActivity" />
+
         <activity android:name="wl.activity.PagetwoActivity"/>
         <activity android:name="cy.activity.ControllerActivity"></activity>
+
     </application>
 
 </manifest>
