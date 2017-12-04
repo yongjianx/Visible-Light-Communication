@@ -2,6 +2,12 @@
 <level-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:drawable="@drawable/zhengjiaguangchang_b1"
+        android:minLevel="101"
+        android:maxLevel="103">
+    </item>
+
+    <item
         android:drawable="@drawable/zhengjiaguangchang_1"
         android:minLevel="1"
         android:maxLevel="3">
