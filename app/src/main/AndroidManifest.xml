@@ -41,7 +41,9 @@
 
         <activity android:name="ht.activity.SaleActivity" />
         <activity android:name="wl.activity.PagetwoActivity" />
-        <activity android:name="cy.activity.ControllerActivity"></activity>
+        <activity android:name="cy.activity.ControllerActivity">
+
+        </activity>
     </application>
 
 </manifest>

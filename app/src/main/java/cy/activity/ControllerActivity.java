@@ -1,9 +1,9 @@
 package cy.activity;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,49 +18,60 @@ import com.example.skyworthclub.visible_light_communication.R;
 public class ControllerActivity extends AppCompatActivity {
 
     private ImageView imageView;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        int position = intent.getIntExtra("key_number", -1);
-        ActionBar actionBar = getSupportActionBar();
+        int position = intent.getIntExtra("key_number", 3);
+
         switch (position){
             case 0:
                 setContentView(R.layout.weiduoli_layout);
                 imageView = (ImageView) findViewById(R.id.iv_wdl);
                 imageView.setImageLevel(2);
-                actionBar.setTitle("维多利广场");
+//                actionBar.setTitle("维多利广场");
                 break;
             case 1:
                 setContentView(R.layout.guangbaibaihuo_layout);
                 imageView = (ImageView) findViewById(R.id.iv_gbbh);
                 imageView.setImageLevel(2);
-                actionBar.setTitle("广百百货");
+//                actionBar.setTitle("广百百货");
                 break;
             case 2:
                 setContentView(R.layout.tianhecheng_layout);
                 imageView = (ImageView) findViewById(R.id.iv_thc);
                 imageView.setImageLevel(2);
-                actionBar.setTitle("天河城");
+//                actionBar.setTitle("天河城");
                 break;
             case 3:
                 setContentView(R.layout.zhengjiaguangchang_layout);
                 imageView = (ImageView) findViewById(R.id.iv_zjgc);
                 imageView.setImageLevel(102);
-                actionBar.setTitle("正佳广场");
+                mToolbar = findViewById(R.id.toolbar_zhengjia);
+                mToolbar.setTitle("正佳广场");
+                setSupportActionBar(mToolbar);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+//                actionBar.setTitle("正佳广场");
                 break;
             case 4:
                 setContentView(R.layout.wanlinghui_layout);
                 imageView = (ImageView) findViewById(R.id.iv_wlh);
                 imageView.setImageLevel(2);
-                actionBar.setTitle("万菱汇");
+//                actionBar.setTitle("万菱汇");
                 break;
             case 5:
                 setContentView(R.layout.taiguhui_layout);
                 imageView = (ImageView) findViewById(R.id.iv_tgh);
                 imageView.setImageLevel(2);
-                actionBar.setTitle("太古汇");
+//                actionBar.setTitle("太古汇");
                 break;
             default:
         }
