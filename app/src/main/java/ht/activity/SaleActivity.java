@@ -50,7 +50,7 @@ public class SaleActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("htout", "click back btn");
+                finish();
             }
         });
 
