@@ -14,10 +14,30 @@
         tools:context="com.example.wulin.page2.Page2Activity">
 
         <LinearLayout
+            android:id="@+id/linearLayout0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:hint="请输入目的地或商铺名称"
+                android:drawableLeft="@drawable/xyj_search_24px"
+                android:drawableRight="@drawable/xyj_delete_24px"
+                android:paddingRight="8dp"
+                android:background="@drawable/xyj_frame"
+                android:singleLine="true"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_below="@+id/linearLayout0">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
