@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:hint="请输入搜索内容"
+                android:hint="请输入目的地或商铺名称"
                 android:drawableLeft="@drawable/xyj_search_24px"
                 android:drawableRight="@drawable/xyj_delete_24px"
                 android:paddingRight="8dp"
