@@ -69,7 +69,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     AMapLocationClient mlocationClient;
     AMapLocationClientOption mLocationOption;
     //经纬度地点依次是正佳，天河城，太古汇
-    private double[] position = {23.1315797200,113.3195285800,23.1322190000,113.3226170000,23.1342510000,113.3324550000};
+    private double[] position = {23.1323070000,113.3270370000,23.1322190000,113.3226170000,23.1342510000,113.3324550000};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -275,8 +275,8 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
             public boolean onMarkerClick(Marker marker) {
                 String temp = marker + "";
                 Log.e("TAG", "marker的标题："+marker.getPosition()+"大小："+temp.length());
-                Toast.makeText(MainActivity.this,"点击指定位置",Toast.LENGTH_SHORT).show();
-                if (marker.getTitle().equals("23.13157972")){
+//                Toast.makeText(MainActivity.this,"点击指定位置",Toast.LENGTH_SHORT).show();
+                if (marker.getTitle().equals("23.132307")){
 //                    Log.e("TAG", "大家好，我进来了");
                     //跳转界面二
                     Intent intent = new Intent(MainActivity.this, PagetwoActivity.class);
@@ -290,7 +290,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         aMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(MainActivity.this,"点击了InfoWidow的地点",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"点击了InfoWindow，如需跳转请点击下方图标",Toast.LENGTH_SHORT).show();
             }
         });
 
