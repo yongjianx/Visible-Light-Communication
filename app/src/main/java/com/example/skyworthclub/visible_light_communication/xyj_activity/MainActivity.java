@@ -1,7 +1,10 @@
 package com.example.skyworthclub.visible_light_communication.xyj_activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -43,9 +46,12 @@ import com.amap.api.services.help.Tip;
 import com.example.skyworthclub.visible_light_communication.R;
 import com.example.skyworthclub.visible_light_communication.xyj_adapter.SearchAdapter;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import wl.activity.PagetwoActivity;
 
@@ -69,7 +75,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
     AMapLocationClient mlocationClient;
     AMapLocationClientOption mLocationOption;
     //经纬度地点依次是正佳，天河城，太古汇
-    private double[] position = {23.1315797200,113.3195285800,23.1322190000,113.3226170000,23.1342510000,113.3324550000};
+    private double[] position = {23.1323070000,113.3270370000,23.1322190000,113.3226170000,23.1342510000,113.3324550000};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +84,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
 
         init();//初始化
 
+//        System.out.println("你麻痹"+ sHA1(this));
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
 
@@ -105,7 +112,6 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
 //        Log.e("TAG", "缩放功能"+uiSettings.isScaleControlsEnabled()+"");
 
 //        aMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-
         getAdress(position[0], position[1]);
         //getAdress(position[2], position[3]);
         //getAdress(position[4],position[5]);
@@ -137,6 +143,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         });
 
     }
+
 
     private void init(){
         mMapView = (MapView) findViewById(R.id.map);
@@ -275,8 +282,8 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
             public boolean onMarkerClick(Marker marker) {
                 String temp = marker + "";
                 Log.e("TAG", "marker的标题："+marker.getPosition()+"大小："+temp.length());
-                Toast.makeText(MainActivity.this,"点击指定位置",Toast.LENGTH_SHORT).show();
-                if (marker.getTitle().equals("23.13157972")){
+//                Toast.makeText(MainActivity.this,"点击指定位置",Toast.LENGTH_SHORT).show();
+                if (marker.getTitle().equals("23.132307")){
 //                    Log.e("TAG", "大家好，我进来了");
                     //跳转界面二
                     Intent intent = new Intent(MainActivity.this, PagetwoActivity.class);
@@ -290,7 +297,7 @@ public class MainActivity extends Activity  implements LocationSource, AMapLocat
         aMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(MainActivity.this,"点击了InfoWidow的地点",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"点击了InfoWindow，如需跳转请点击下方图标",Toast.LENGTH_SHORT).show();
             }
         });
 
