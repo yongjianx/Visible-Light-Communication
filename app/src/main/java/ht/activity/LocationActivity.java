@@ -2,6 +2,8 @@ package ht.activity;
 
 import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,7 +105,92 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         Log.d(TAG, "焦距：" + parameters.getFocalLength());
         Log.d(TAG, "曝光时间:" + parameters.getExposureCompensation());
 
+//        isLed2(disMat);
         return disMat;
+    }
+
+    private void isLed2(Mat mat) {
+        int row = mat.rows();
+        int col = mat.cols();
+        int ii = 0;
+        Log.d(TAG, "row:" + row + " col:" + col);
+        double[] temp1 = new double[col];
+        Log.d(TAG, "temp" + temp1[0]);
+
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j ++) {
+//                Log.d(TAG, "mat[i][j]:" + mat.get(i, j)[0]);
+                if (mat.get(i, j)[0] != 0) {
+                    temp1[i] = 1;
+                    break;
+                }
+            }
+        }
+
+        while (temp1[ii] == 0) {
+            ii++;
+        }
+        int xMin = ii;
+        while (temp1[ii] != 0 && ii < col - 1) {
+            ii++;
+        }
+        int xMax = ii;
+        Mat mat1 = mat.submat(0, row, xMin, xMax);
+        double[] temp2 = new double[row];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < mat1.cols(); j ++) {
+                if (mat.get(i, j)[0] != 0) {
+                    temp2[i] = 1;
+                    break;
+                }
+            }
+        }
+        ii = 0;
+        while (temp2[ii] == 0) {
+            ii++;
+        }
+        int yMin = ii;
+        while (temp2[ii] != 0 && ii < row - 1) {
+            ii++;
+        }
+        int yMax = ii;
+        while (temp2[ii] == 0 && ii < row - 1) {
+            ii++;
+        }
+
+        if (ii == row - 1) {
+            for (int i = xMin; i <= xMax; i++) {
+                for (int j = yMin; j < yMax; j ++) {
+                    mat.put(i, j, 0);
+                }
+            }
+        } else {
+            Mat mat2 = mat.submat(yMin, yMax, 0, col - 1);
+            double[] temp3 = new double[col];
+            ii = 0;
+            for (int i = 0; i < col; i++) {
+                for (int j = 0; j < mat2.rows(); j ++) {
+//                Log.d(TAG, "mat[i][j]:" + mat.get(i, j)[0]);
+                    if (mat.get(i, j)[0] != 0) {
+                        temp3[i] = 1;
+                        break;
+                    }
+                }
+            }
+            while (temp1[ii] == 0) {
+                ii++;
+            }
+            xMin = ii;
+            while (temp1[ii] != 0 && ii < col - 1) {
+                ii++;
+            }
+            xMax = ii;
+            for (int i = xMin; i <= xMax; i++) {
+                for (int j = yMin; j < yMax; j ++) {
+                    mat.put(i, j, 0);
+                }
+            }
+        }
     }
 
     @Override
