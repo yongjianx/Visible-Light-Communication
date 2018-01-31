@@ -42,6 +42,7 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
     private CameraBridgeViewBase mCameraView;
     private Mat mRgba;
     private ImageView mImageView;
+    private ImageView mDivideImg;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -68,6 +69,7 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         mImageView = findViewById(R.id.image);
+        mDivideImg = findViewById(R.id.divide_image);
         mCameraView = findViewById(R.id.camera_view);
         mCameraView.setCvCameraViewListener(this);
         mCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
@@ -120,10 +122,10 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
 //        isLed2(disMat);
 
         Mat disMat = new Mat();
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.guangbaibaihuo_1);
-        mImageView.setImageBitmap(bitmap);
-        Utils.bitmapToMat(bitmap, disMat);
-        Log.d(TAG, "width:" + disMat.cols() + " height:" + disMat.rows());
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.guangbaibaihuo_1);
+//        mImageView.setImageBitmap(bitmap);
+//        Utils.bitmapToMat(bitmap, disMat);
+//        Log.d(TAG, "width:" + disMat.cols() + " height:" + disMat.rows());
         return disMat;
     }
 
@@ -262,6 +264,12 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         kernel=Imgproc.getStructuringElement(Imgproc.MORPH_DILATE, new Size(10, 10));
         Imgproc.dilate(disMat, disMat, kernel);
 
+        //灰度化
+        Imgproc.cvtColor(resMat, resMat, Imgproc.COLOR_RGB2GRAY);
+        //二值化
+        Imgproc.threshold(resMat, resMat, 12, 255, Imgproc.THRESH_TOZERO);
+        Imgproc.threshold(resMat, resMat, 12, 255, Imgproc.THRESH_BINARY);
+
         List<Mat> img = new ArrayList<Mat>();
         List<Coordinate> X = new ArrayList<Coordinate>();
         List<Coordinate> Y = new ArrayList<Coordinate>();
@@ -272,6 +280,10 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         Bitmap newBitmap = Bitmap.createBitmap(disMat.cols(), disMat.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(disMat, newBitmap);
         mImageView.setImageBitmap(newBitmap);
+
+        Bitmap led = Bitmap.createBitmap(img.get(0).cols(), img.get(0).rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img.get(0), led);
+        mDivideImg.setImageBitmap(led);
     }
 
     private void getLed(Mat resMat, Mat disMat, List<Mat> img, List<Coordinate> X, List<Coordinate> Y, List<Integer> S) {
