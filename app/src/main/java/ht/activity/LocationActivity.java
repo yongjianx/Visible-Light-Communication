@@ -185,6 +185,12 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         }
 
         if (ii == row - 1) {
+            if(yMin - 10 > 0) {
+                yMin -= 10;
+            }
+            if(yMax + 10 < row - 1) {
+                yMax += 10;
+            }
             for (int i = xMin; i <= xMax; i++) {
                 for (int j = yMin; j <= yMax; j ++) {
                     mat.put(j, i, 0);
@@ -211,6 +217,12 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
                 ii++;
             }
             xMax = ii;
+            if(yMin - 10 > 0) {
+                yMin -= 10;
+            }
+            if(yMax + 10 < row - 1) {
+                yMax += 10;
+            }
             for (int i = xMin; i <= xMax; i++) {
                 for (int j = yMin; j < yMax; j ++) {
                     mat.put(j, i, 0);
