@@ -298,8 +298,9 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         Utils.matToBitmap(disMat, newBitmap);
         mImageView.setImageBitmap(newBitmap);
 
-        //细化
-        img.add(MyUtils.LED_Pre_Process(img.get(0)));
+        //检测led条纹数
+        MyUtils.LED_Pre_Process(img);
+
         Log.e("TAG", "img的大小："+img.size());
 //        img.add(MyUtils.HoughPrecess(img.get(img.size()-1)));
 

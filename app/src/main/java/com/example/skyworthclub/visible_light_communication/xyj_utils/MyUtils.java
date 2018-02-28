@@ -2,6 +2,9 @@ package com.example.skyworthclub.visible_light_communication.xyj_utils;
 
 import android.util.Log;
 
+import com.amap.api.maps.model.Poi;
+
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
@@ -19,20 +22,26 @@ public class MyUtils {
     private static final double minVal = 12;
     private static final double maxVal = 255;
 
-    public static Mat LED_Pre_Process(Mat img) {
+    public static List<Integer> LED_Pre_Process(List<Mat> img) {
         //目的输出矩阵
         Mat dst = new Mat();
+        //存放led条纹数
+        List<Integer> ledNum = new ArrayList<>();
 //        Mat temp = new Mat();
 
         //图像灰度化
 //        Imgproc.cvtColor(img, temp, Imgproc.COLOR_RGB2GRAY);
         //二值化
 //        Imgproc.threshold(temp, temp, minVal, maxVal, Imgproc.THRESH_BINARY);
-        //细化算法
-        dst = MyUtils.ImgThin(img);
 
-        return dst;
+        for (int i=0; i<img.size(); i++){
+            //细化算法
+            dst = MyUtils.ImgThin(img.get(i));
+            ledNum.add(MyUtils.HoughPrecess(dst));
+        }
+        Log.e("TAG", "ledNum大小:"+ledNum.size()+" 1："+ledNum.get(0)+" 2:"+ledNum.get(1)+" 3:"+ledNum.get(2));
 
+        return ledNum;
     }
 
     /*
@@ -179,31 +188,104 @@ public class MyUtils {
         return srcimage;
     }
 
-    public static Mat HoughPrecess(Mat img){
+    /*
+    霍夫直线检测
+    @param img 细化之后的图像
+     */
+    public static int HoughPrecess(Mat img){
         Mat res = new Mat();
         //霍夫检测直线
         Mat lines = new Mat();
+        //起点集
+        List<Point> starts = new ArrayList<>();
+        //终点集
+        List<Point> ends = new ArrayList<>();
 
         //canny算子进行一次边缘检测
         Imgproc.Canny(img, res, 80, 160);
-
         //霍夫直线检测
         Imgproc.HoughLinesP(res, lines, 1, Math.PI/180,
-                50, 50, 100);
+                20, 15, 50);
 
+        //全零三通道矩阵
+        Mat dst = Mat.zeros(res.size(), CvType.CV_8UC3);
         for (int i=0; i<lines.rows(); i++){
             double[] vec = lines.get(i, 0);
-
             double x1 = vec[0], y1 = vec[1], x2 = vec[2], y2 = vec[3];
+
             Point start = new Point(x1, y1);
+            starts.add(start);
             Point end = new Point(x2, y2);
-            Imgproc.line(res, start, end, new Scalar(255, 0 ,0), 1);
+            ends.add(end);
+//            Imgproc.circle(dst, start, 2, new Scalar(255, 255, 255));
+//            Imgproc.circle(dst, end, 2, new Scalar(0, 255, 0));
+            //绘制直线
+            Imgproc.line(dst, start, end, new Scalar(255, 0 ,0), 1);
         }
+
+        List<Point> pointStart = MyUtils.pickUp_line(starts);
+        List<Point> pointEnd = MyUtils.pickUp_line(ends);
+
+//        //绘制筛选之后的起点和终点
+//        for (int i=0; i<pointStart.size(); i++){
+//            Imgproc.circle(dst, pointStart.get(i), 2, new Scalar(255, 255, 255));
+//        }
+//        for (int i=0; i<pointEnd.size(); i++){
+//            Imgproc.circle(dst, pointEnd.get(i), 2, new Scalar(0, 255, 0));
+//        }
 
         Log.e("TAG", "lines的行数："+lines.rows()+"  列数："+lines.cols());
         Log.e("TAG", "lines的维数："+lines.dims()+" 大小："+lines.size());
-        Log.e("TAG", "第一个数："+lines.get(0,0).length+" shuju"+lines.get(0,0));
 
+        if (pointStart.size() == pointEnd.size())
+            return pointStart.size();
+        else
+            //返回最大的点数
+            return pointStart.size()>pointEnd.size()? pointStart.size():pointEnd.size();
+    }
+
+    /*
+    @param points 原始起点/终点集合
+    通过比较点集合的纵坐标来筛选，所以led条纹必须为横向
+     */
+    public static List<Point> pickUp_line(List<Point> points){
+        //转换为数组
+        Point[] pointsArray = new Point[points.size()];
+        points.toArray(pointsArray);
+
+        //冒泡排序法
+        for (int i=0; i<pointsArray.length-1; i++){
+            for (int j=0; j<pointsArray.length-1-i; j++){
+                if (pointsArray[j].y > pointsArray[j+1].y){
+                    Point temPoint = pointsArray[j];
+                    pointsArray[j] = pointsArray[j+1];
+                    pointsArray[j+1] = temPoint;
+                }
+            }
+        }
+
+        List<Point> res = new ArrayList<>();
+        //阈值距离
+        final int POINT_DISTANCE = 10;
+
+        Point p1 = pointsArray[0];
+        Point p2 = new Point();
+
+        for (int i=1; i<pointsArray.length; i++){
+            p2 = pointsArray[i];
+            //两点之间的竖向距离
+            double distance = Math.sqrt(Math.abs(p1.y-p2.y)*Math.abs(p1.y-p2.y));
+            Log.e("TAG", "竖向距离："+distance);
+            if (distance > POINT_DISTANCE){
+                res.add(p1);
+            }
+            if (i == pointsArray.length-1)
+                res.add(p2);
+
+            p1 = p2;
+        }
+        Log.e("TAG", "最终检测直线的大小："+res.size());
         return res;
     }
+
 }
