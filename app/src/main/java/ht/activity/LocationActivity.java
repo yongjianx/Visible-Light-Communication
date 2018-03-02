@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.skyworthclub.visible_light_communication.R;
 import com.example.skyworthclub.visible_light_communication.xyj_utils.MyUtils;
@@ -253,6 +254,8 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
 
     }
 
+    private List<Integer> mLedLineList;
+
     private void handlePicture() {
         Mat resMat = new Mat();
         Mat disMat = new Mat();
@@ -299,8 +302,9 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         mImageView.setImageBitmap(newBitmap);
 
         //检测led条纹数
-        MyUtils.LED_Pre_Process(img);
-
+        mLedLineList = MyUtils.LED_Pre_Process(img);
+        isCollinear(X, Y);
+        getLocation();
         Log.e("TAG", "img的大小："+img.size());
 //        img.add(MyUtils.HoughPrecess(img.get(img.size()-1)));
 
@@ -332,6 +336,138 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
             }
         }
         return true;
+    }
+
+    int[][] XY = new int[3][2];
+    int[][] xy = new int[3][2];
+    Double x,y;
+
+    //判断三个LED是否共线
+    private void isCollinear(List<Coordinate> X, List<Coordinate> Y){
+        if ((X.get(0).getMiddle()==X.get(2).getMiddle())&&(Y.get(0).getMiddle()==Y.get(2).getMiddle())){
+            X.remove(2);
+            Y.remove(2);
+        }else if((X.get(0).getMiddle()==X.get(1).getMiddle())&&(Y.get(0).getMiddle()==Y.get(1).getMiddle())){
+            X.remove(1);
+            Y.remove(1);
+        }else if((X.get(1).getMiddle()==X.get(2).getMiddle())&&(Y.get(1).getMiddle()==Y.get(2).getMiddle())){
+            X.remove(1);
+            Y.remove(1);
+        }
+
+        for(int i = 0;i<3;i++){
+            xy[i][0] = X.get(i).getMiddle();
+            xy[i][1] = Y.get(i).getMiddle();
+        }
+
+        int lines[][] = {{6, 8, 11, 14, 17},{7, 9, 13, 16, 18}};
+        int RealXY[][] = {{-330,330,0,330,-330},{-330,-330,0,330,330}};
+
+        Log.d("htout", "length:" + lines.length);
+
+        int Lines[] = new int[mLedLineList.size()];
+        for (int i = 0; i < mLedLineList.size(); i++) {
+            Lines[i] = mLedLineList.get(i);
+            Log.d("htout", "lines" + i + ":" + Lines[i]);
+        }
+
+        for(int i = 0;i<3;i++){
+            for(int j = 0; j < 5 ; j++){
+                if(Lines[i]>=lines[0][j]&&Lines[i]<=lines[1][j]){
+                    XY[i][0] = RealXY[0][j];
+                    XY[i][1] = RealXY[1][j];
+                }
+            }
+        }
+    }
+
+    private void getLocation(){
+        int X[] = new int[3];
+        int Y[] = new int[3];
+
+        double f = 2.9;//摄像机焦距
+
+        //透镜焦点在image sensor上的位置
+        int center_x = 417;
+        int center_y = 341; //透镜焦点在image sensor上的位置
+
+        //图像中任意两个LED之间的距离
+        double d_12 = Math.sqrt(Math.abs(Math.pow(xy[0][0]-xy[1][0],2) + Math.pow(xy[0][1]-xy[1][1],2)))*3.2e-3;
+        double d_13 = Math.sqrt(Math.abs(Math.pow(xy[0][0]-xy[2][0],2) + Math.pow(xy[0][1]-xy[2][1],2)))*3.2e-3;
+        double d_23 = Math.sqrt(Math.abs(Math.pow(xy[1][0]-xy[2][0],2) + Math.pow(xy[1][1]-xy[2][1],2)))*3.2e-3;
+
+        //世界坐标中任意两个LED之间的距离
+        double D_12 = Math.sqrt(Math.pow(XY[0][0]-XY[1][0],2) + Math.pow(XY[0][1]-XY[1][1],2));
+        double D_13 = Math.sqrt(Math.pow(XY[0][0]-XY[2][0],2) + Math.pow(XY[0][1]-XY[2][1],2));
+        double D_23 = Math.sqrt(Math.pow(XY[1][0]-XY[2][0],2) + Math.pow(XY[1][1]-XY[2][1],2));
+
+        //相机与LED间的垂直距离
+        double H = ( D_12/d_12 + D_13/d_13 + D_23/d_23 )/3*f;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 2; j++) {
+                Log.d("htout", "xy:" + i + " " + j + " " + xy[i][j]);
+            }
+        }
+
+        Log.d("htout", "aaa:" + " " + D_12 + " " + D_13 + " " + D_23 + " " + xy[0][0] + " " + xy[1][0] + " " + xy[0][1] + " " + xy[1][1]);
+
+        //计算水平方向上摄像头到3个LED的距离
+        double d_1 = Math.sqrt(Math.pow(xy[0][0]-center_x,2) + Math.pow(xy[0][1]-center_y,2))*3.2e-3;
+        double d_2 = Math.sqrt(Math.pow(xy[1][0]-center_x,2) + Math.pow(xy[1][1]-center_y,2))*3.2e-3;
+        double d_3 = Math.sqrt(Math.pow(xy[2][0]-center_x,2) + Math.pow(xy[2][1]-center_y,2))*3.2e-3;
+
+        double D_1 = H/f*d_1;
+        double D_2 = H/f*d_2;
+        double D_3 = H/f*d_3;
+
+        Log.d("htout", "bba:" + D_1 + " " + D_2 + " " + D_3 + " " + H);
+
+        for(int i = 0 ; i < 3 ; i++){
+            X[i] = XY[i][0];
+            Y[i] = XY[i][1];
+            Log.d("htout", "X:" + X[i] + "$" + Y[i]);
+        }
+
+        double r1 = Math.pow(D_1,2);
+        double r2 = Math.pow(D_2,2);
+        double r3 = Math.pow(D_3,2);
+        double x1 = Math.pow(X[0],2);
+        double x2 = Math.pow(X[1],2);
+        double x3 = Math.pow(X[2],2);
+        double y1 = Math.pow(Y[0],2);
+        double y2 = Math.pow(Y[1],2);
+        double y3 = Math.pow(Y[2],2);
+        Log.d("htout", "ccc:" + r1 + " " + r2 + " " + r3);
+
+
+        double a1 = 2*(X[0]-X[2]);
+        double b1 = 2*(Y[0]-Y[2]);
+        double c1 = x3 - x1 + y3 - y1 - r3 + r1;
+        double a2 = 2*(X[1]-X[2]);
+        double b2 = 2*(Y[1]-Y[2]);
+        double c2 = x3 - x2 + y3 - y2 - r3 + r2;
+
+        double XX = (c2 * b1 - c1 * b2) / (a1*b2 - a2 * b1);
+        double YY = (c2 * a1 - c1 * a2) / (a2*b1 - a1 * b2);
+
+        double xx = XX / 10;
+        double yy = YY / 10;
+        double zz = 150 - H / 10;
+
+//        y = ((X[1]-X[0])*r3 - (X[1]-X[2])*r1 + (X[0]-X[2])*r2
+//                + (X[1]-X[2])*x1 - (X[1]-X[0])*x3 - (X[0]-X[2])*x2
+//                + (X[1]-X[2])*y1 - (X[1]-X[0])*y3 - (X[0]-X[2])*y2)
+//                / (2*(Y[0]*X[1]-Y[1]*X[0]-Y[0]*X[2]+Y[2]*X[0]-Y[2]*X[1]+Y[1]*X[2]));
+//
+//        x = ((Y[1]-Y[0])*r3 - (Y[1]-Y[2])*r1 + (Y[0]-Y[2])*r2
+//                + (Y[1]-Y[2])*y1 - (Y[1]-Y[0])*y3 - (Y[0]-Y[2])*y2
+//                + (Y[1]-Y[2])*x1 - (Y[1]-Y[0])*x3 - (Y[0]-Y[2])*x2)
+//                / (2*(X[0]*Y[1]-X[1]*Y[0]-X[0]*Y[2]+X[2]*Y[0]-X[2]*Y[1]+X[1]*Y[2]));
+
+        Toast.makeText(this, "x:" + xx + " y:" + yy, Toast.LENGTH_SHORT).show();
+        Log.d("htout", "x:" + xx + "y:" + yy);
+
     }
 
     @Override
