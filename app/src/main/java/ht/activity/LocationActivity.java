@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.media.ImageReader;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.skyworthclub.visible_light_communication.R;
+import com.example.skyworthclub.visible_light_communication.xyj_utils.MyUtils;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -24,7 +26,9 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Range;
 import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -255,6 +259,7 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         //获得图片并转换成矩阵
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.led);
         Utils.bitmapToMat(bitmap, resMat);
+
         //灰度化
         Imgproc.cvtColor(resMat, disMat, Imgproc.COLOR_RGB2GRAY);
         //二值化
@@ -293,8 +298,14 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         Utils.matToBitmap(disMat, newBitmap);
         mImageView.setImageBitmap(newBitmap);
 
-        Bitmap led = Bitmap.createBitmap(img.get(0).cols(), img.get(0).rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(img.get(0), led);
+        //检测led条纹数
+        MyUtils.LED_Pre_Process(img);
+
+        Log.e("TAG", "img的大小："+img.size());
+//        img.add(MyUtils.HoughPrecess(img.get(img.size()-1)));
+
+        Bitmap led = Bitmap.createBitmap(img.get(img.size()-1).cols(), img.get(img.size()-1).rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img.get(img.size()-1), led);
         mDivideImg.setImageBitmap(led);
     }
 
