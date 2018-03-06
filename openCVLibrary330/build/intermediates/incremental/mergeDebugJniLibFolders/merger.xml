@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/skyworthclub/AndroidStudioProjects/MyWeChat/Visible_Light_Communication/openCVLibrary330/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/Users/skyworthclub/AndroidStudioProjects/MyWeChat/Visible_Light_Communication/openCVLibrary330/src/debug/jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="G:\MyAndroid\VisiableLightCommunication\Visible-Light-Communication\openCVLibrary330\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="G:\MyAndroid\VisiableLightCommunication\Visible-Light-Communication\openCVLibrary330\src\debug\jniLibs"/></dataSet></merger>

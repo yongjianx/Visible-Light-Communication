@@ -9,7 +9,7 @@ OpenCV_CAMERA_MODULES := off
 OPENCV_LIB_TYPE :=STATIC
 
 ifeq ("$(wildcard $(OPENCV_MK_PATH))","")
-include /Users/skyworthclub/Emmanuel/OpenCV-android-sdk/sdk/native/jni/OpenCV.mk
+include F:\AndroidResource\OpenResource\OpenCV-android-sdk\sdk\native\jni\Opencv.mk
 else
 include $(OPENCV_MK_PATH)
 endif
