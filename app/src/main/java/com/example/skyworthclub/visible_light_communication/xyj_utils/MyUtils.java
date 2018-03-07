@@ -39,7 +39,7 @@ public class MyUtils {
             dst = MyUtils.ImgThin(img.get(i));
             ledNum.add(MyUtils.HoughPrecess(dst));
         }
-        Log.e("TAG", "ledNum大小:"+ledNum.size()+" 1："+ledNum.get(0)+" 2:"+ledNum.get(1)+" 3:"+ledNum.get(2));
+//        Log.e("TAG", "ledNum大小:"+ledNum.size()+" 1："+ledNum.get(0)+" 2:"+ledNum.get(1)+" 3:"+ledNum.get(2));
 
         return ledNum;
     }
