@@ -248,7 +248,7 @@ public class MyUtils {
     @param points 原始起点/终点集合
     通过比较点集合的纵坐标来筛选，所以led条纹必须为横向
      */
-    public static List<Point> pickUp_line(List<Point> points){
+    private static List<Point> pickUp_line(List<Point> points){
         //转换为数组
         Point[] pointsArray = new Point[points.size()];
         points.toArray(pointsArray);
@@ -289,3 +289,4 @@ public class MyUtils {
     }
 
 }
+

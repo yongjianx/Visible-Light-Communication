@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: G:\\MyAndroid\\VisiableLightCommunication\\Visible-Light-Communication\\openCVLibrary330\\src\\main\\aidl\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
+ * Original file: /Users/skyworthclub/AndroidStudioProjects/MyWeChat/Visible_Light_Communication/openCVLibrary330/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**
