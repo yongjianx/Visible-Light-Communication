@@ -27,6 +27,7 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 import org.opencv.core.Range;
 import org.opencv.core.Size;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -50,12 +51,14 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
 
     private CameraBridgeViewBase mCameraView;
     private Mat mRgba;
+    private Camera mCamera;
     private ImageView mImageView;
     private ImageView mDivideImg;
 
 
     int[][] XY = new int[3][2];
     int[][] xy = new int[3][2];
+    private List<Integer> mLedLineList;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -80,12 +83,12 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_location);
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        mImageView = findViewById(R.id.image);
-        mDivideImg = findViewById(R.id.divide_image);
+//
+//        mImageView = findViewById(R.id.image);
+//        mDivideImg = findViewById(R.id.divide_image);
         mCameraView = findViewById(R.id.camera_view);
         mCameraView.setCvCameraViewListener(this);
-        mCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_FRONT);
+        mCameraView.setCameraIndex(CameraBridgeViewBase.CAMERA_ID_BACK);
 
     }
 
@@ -116,8 +119,12 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
 
 //        isLed2(disMat);
 
-        Mat disMat = new Mat();
-        return disMat;
+        Mat resMat = inputFrame.rgba();
+        Mat dst = new Mat();
+        Mat rotateMat = Imgproc.getRotationMatrix2D(new Point(resMat.rows()/2,resMat.cols()/2), -90, 1);
+        Imgproc.warpAffine(resMat, dst, rotateMat, dst.size());
+//        Log.d("htout", "resmat:" + dst.rows() + " " + dst.cols());
+        return dst;
     }
 
     private void isLed2(Mat mat, List<Coordinate> X, List<Coordinate> Y, List<Integer> S) {
@@ -238,9 +245,8 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
 
         handlePicture();
 
+        mCamera = ((CameraControlView)mCameraView).getCamera();
     }
-
-    private List<Integer> mLedLineList;
 
     private void handlePicture() {
         Mat resMat = new Mat();
@@ -291,9 +297,9 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
 
         Log.d("htout", "ccc");
         Log.d(TAG, "width:" + disMat.cols() + " height:" + disMat.rows());
-        Bitmap newBitmap = Bitmap.createBitmap(disMat.cols(), disMat.rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(disMat, newBitmap);
-        mImageView.setImageBitmap(newBitmap);
+//        Bitmap newBitmap = Bitmap.createBitmap(disMat.cols(), disMat.rows(), Bitmap.Config.ARGB_8888);
+//        Utils.matToBitmap(disMat, newBitmap);
+//        mImageView.setImageBitmap(newBitmap);
 
         //检测led条纹数
 //        mLedLineList = MyUtils.LED_Pre_Process(img);
@@ -302,10 +308,10 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         getLocation();
         Log.e("TAG", "img的大小："+img.size());
 //        img.add(MyUtils.HoughPrecess(img.get(img.size()-1)));
-
-        Bitmap led = Bitmap.createBitmap(img.get(img.size()-3).cols(), img.get(img.size()-3).rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(img.get(img.size()-3), led);
-        mDivideImg.setImageBitmap(led);
+//
+//        Bitmap led = Bitmap.createBitmap(img.get(img.size()-3).cols(), img.get(img.size()-3).rows(), Bitmap.Config.ARGB_8888);
+//        Utils.matToBitmap(img.get(img.size()-3), led);
+//        mDivideImg.setImageBitmap(led);
     }
 
     private void getLed(Mat resMat, Mat disMat, List<Mat> img, List<Coordinate> X, List<Coordinate> Y, List<Integer> S) {
