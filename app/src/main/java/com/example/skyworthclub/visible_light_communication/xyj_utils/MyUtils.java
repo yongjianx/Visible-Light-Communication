@@ -1,5 +1,6 @@
 package com.example.skyworthclub.visible_light_communication.xyj_utils;
 
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.amap.api.maps.model.Poi;
@@ -8,6 +9,7 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
+import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class MyUtils {
     //图像二值化的阈值范围
     private static final double minVal = 12;
     private static final double maxVal = 255;
+
 
     public static List<Integer> LED_Pre_Process(List<Mat> img) {
         //目的输出矩阵
@@ -270,6 +273,7 @@ public class MyUtils {
 
         Point p1 = pointsArray[0];
         Point p2 = new Point();
+        Imgcodecs.imread()
 
         for (int i=1; i<pointsArray.length; i++){
             p2 = pointsArray[i];
