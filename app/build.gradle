@@ -32,10 +32,9 @@ android {
         main {
             res.srcDirs =
                     [
-                            'src/main/res/layouts/cy',
-                            'src/main/res/layouts/ht',
-                            'src/main/res/layouts/wl',
-                            'src/main/res/layouts/xyj',
+                            'src/main/res/layouts/activities',
+                            'src/main/res/layouts/adapters',
+                            'src/main/res/layouts/fragments',
                             'src/main/res/layouts',
                             'src/main/res'
                     ]
