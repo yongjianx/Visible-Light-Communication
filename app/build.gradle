@@ -32,14 +32,34 @@ android {
         main {
             res.srcDirs =
                     [
-                            'src/main/res/layouts/cy',
-                            'src/main/res/layouts/ht',
-                            'src/main/res/layouts/wl',
-                            'src/main/res/layouts/xyj',
+                            'src/main/res/layouts/activities',
+                            'src/main/res/layouts/adapters',
+                            'src/main/res/layouts/fragments',
                             'src/main/res/layouts',
                             'src/main/res'
                     ]
         }
+    }
+
+    sourceSets.main.jni.srcDirs = []
+//禁止自带的ndk功能
+    sourceSets.main.jniLibs.srcDirs = ['src/main/libs', 'src/main/jniLibs']
+//重定向so目录为src/main/libs，原来为src/main/jniLibs
+
+    task ndkBuild(type: Exec, description: 'Compile JNI source with NDK') {
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def ndkDir = properties.getProperty('ndk.dir')
+
+        if (org.apache.tools.ant.taskdefs.condition.Os.isFamily(org.apache.tools.ant.taskdefs.condition.Os.FAMILY_WINDOWS)) {
+            commandLine "$ndkDir/ndk-build.cmd", '-C', file('src/main/jni').absolutePath
+        } else {
+            commandLine "$ndkDir/ndk-build", '-C', file('src/main/jni').absolutePath
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        compileTask -> compileTask.dependsOn ndkBuild
     }
 }
 
@@ -55,7 +75,13 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/Android_Map3D_SDK_V5.5.0_20171107.jar')
     compile files('libs/AMap_Location_V3.6.1_20171012.jar')
+    implementation project(':openCVLibrary330')
 }
+
+
+
+
+
 
 
 

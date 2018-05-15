@@ -17,6 +17,15 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 手机摄像头权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -29,21 +38,28 @@
             android:name="com.amap.api.v2.apikey"
             android:value="1a91d3e400a507439966bf75c73a5c0f" />
 
-        <activity android:name=".xyj_activity.MainActivity">
+        <activity android:name=".activity.MainActivity" />
+
+        <service android:name="com.amap.api.location.APSService" />
+
+        <activity android:name=".activity.SaleActivity" />
+        <activity android:name=".activity.PagetwoActivity" />
+        <activity android:name=".activities.ControllerActivity" />
+        <activity android:name=".activity.LocationActivity">
+
+        </activity>
+
+
+        <activity android:name=".camera.CameraActivity">
+
+        </activity>
+        <activity android:name=".camera.Camera2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service android:name="com.amap.api.location.APSService" />
-
-        <activity android:name="ht.activity.SaleActivity" />
-
-        <activity android:name="wl.activity.PagetwoActivity"/>
-        <activity android:name="cy.activity.ControllerActivity"></activity>
-
     </application>
 
 </manifest>
