@@ -1,4 +1,4 @@
-package com.example.skyworthclub.visible_light_communication.activity;
+package com.example.skyworthclub.visible_light_communication.activities;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.example.skyworthclub.visible_light_communication.activity;
+package com.example.skyworthclub.visible_light_communication.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

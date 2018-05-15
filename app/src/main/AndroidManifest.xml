@@ -44,7 +44,7 @@
 
         <activity android:name=".activity.SaleActivity" />
         <activity android:name=".activity.PagetwoActivity" />
-        <activity android:name=".ImageProcessing.ControllerActivity" />
+        <activity android:name=".activities.ControllerActivity" />
         <activity android:name=".activity.LocationActivity">
 
         </activity>

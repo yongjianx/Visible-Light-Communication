@@ -1,4 +1,4 @@
-package com.example.skyworthclub.visible_light_communication.fragment;
+package com.example.skyworthclub.visible_light_communication.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

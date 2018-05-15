@@ -1,4 +1,4 @@
-package com.example.skyworthclub.visible_light_communication.activity;
+package com.example.skyworthclub.visible_light_communication.activities;
 
 import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
@@ -14,7 +14,7 @@ import com.example.skyworthclub.visible_light_communication.R;
 
 import com.example.skyworthclub.visible_light_communication.adapters.OnSaleViewPagerAdapter;
 import com.example.skyworthclub.visible_light_communication.utils.ShopInfo;
-import com.example.skyworthclub.visible_light_communication.fragment.OnSaleFragment;
+import com.example.skyworthclub.visible_light_communication.fragments.OnSaleFragment;
 
 import java.util.ArrayList;
 import java.util.List;

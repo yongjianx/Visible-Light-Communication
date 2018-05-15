@@ -1,4 +1,4 @@
-package com.example.skyworthclub.visible_light_communication.activity;
+package com.example.skyworthclub.visible_light_communication.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.skyworthclub.visible_light_communication.ImageProcessing.ControllerActivity;
+import com.example.skyworthclub.visible_light_communication.activities.ControllerActivity;
 import com.example.skyworthclub.visible_light_communication.R;
 
 public class PagetwoActivity extends AppCompatActivity implements View.OnClickListener{
