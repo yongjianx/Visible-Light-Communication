@@ -178,7 +178,7 @@ public class ImageProcess {
      */
     public static ArrayList<Integer> getLedLineCount(List<Mat> imgs) {
         ArrayList<Integer> ledLineCountList = new ArrayList<Integer>();
-        int threhold = 2;
+        int threhold = 1;
         int lastColor = 0;
         int curColor = 0;
 
@@ -198,7 +198,7 @@ public class ImageProcess {
                     if (lastColor == curColor && curColor == 0) {
                         sameCount++;
                     }
-                    if (sameCount > threhold) {
+                    if (sameCount >= threhold) {
                         isAWhiteLine = false;
                     }
                     lastColor = curColor;
@@ -218,7 +218,7 @@ public class ImageProcess {
 
             }
 
-            ledLineCountList.add(count);
+            ledLineCountList.add(++count);
             Log.d("htout", "ledlinecount:" + count);
         }
 
