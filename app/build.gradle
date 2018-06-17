@@ -12,7 +12,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a","x86", "arm64-v8a", "x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "arm64-v8a", "x86_64"
         }
 
         sourceSets {
@@ -32,10 +32,9 @@ android {
         main {
             res.srcDirs =
                     [
-                            'src/main/res/layouts/cy',
-                            'src/main/res/layouts/ht',
-                            'src/main/res/layouts/wl',
-                            'src/main/res/layouts/xyj',
+                            'src/main/res/layouts/activities',
+                            'src/main/res/layouts/adapters',
+                            'src/main/res/layouts/fragments',
                             'src/main/res/layouts',
                             'src/main/res'
                     ]
@@ -44,7 +43,7 @@ android {
 
     sourceSets.main.jni.srcDirs = []
 //禁止自带的ndk功能
-    sourceSets.main.jniLibs.srcDirs = ['src/main/libs','src/main/jniLibs']
+    sourceSets.main.jniLibs.srcDirs = ['src/main/libs', 'src/main/jniLibs']
 //重定向so目录为src/main/libs，原来为src/main/jniLibs
 
     task ndkBuild(type: Exec, description: 'Compile JNI source with NDK') {
@@ -78,6 +77,10 @@ dependencies {
     compile files('libs/AMap_Location_V3.6.1_20171012.jar')
     implementation project(':openCVLibrary330')
 }
+
+
+
+
 
 
 
