@@ -22,22 +22,12 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
 
 import com.example.skyworthclub.visible_light_communication.utils.Coordinate;
-import com.example.skyworthclub.visible_light_communication.utils.DaemonThreadFactory;
-import com.example.skyworthclub.visible_light_communication.utils.LedLine;
 
 public class LocationActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
 
@@ -56,10 +46,6 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
     int[][] XY = new int[3][2];
     int[][] xy = new int[3][2];
     private List<Integer> mLedLineList;
-
-    //线程池
-    ExecutorService service;
-    FutureTask<Integer> futureTask;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -139,14 +125,6 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
 
-        //创建线程池
-//        service = Executors.newCachedThreadPool(new DaemonThreadFactory());
-//        service.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                handlePicture();
-//            }
-//        });
 
         handlePicture();
 
@@ -179,36 +157,6 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         //遍历分割后的led图像，检测每个led图像的条纹数
         mLedLineList = ImageProcess.getLedLineCount(imgs);
 
-//        for (final Mat img:imgs){
-//
-//            Callable<Integer> callable = new Callable<Integer>() {
-//                @Override
-//                public Integer call() throws Exception {
-//                    return ImageProcess.getLedLineCount(img);
-//                }
-//            };
-//            futureTask = new FutureTask<Integer>(callable){
-//                @Override
-//                protected void done() {
-//                    try{
-//                        mLedLineList.add(futureTask.get());
-//                    }catch (InterruptedException e){
-//                        e.printStackTrace();
-//                    }catch (ExecutionException e){
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//            };
-//
-//            service.execute(futureTask);
-//
-//        }
-
-        /*
-        等待计算完led条纹数才能继续下面的步骤
-         */
-        //判断三个LED是否共线
         isCollinear(X, Y);
         //计算坐标
         getLocation();
