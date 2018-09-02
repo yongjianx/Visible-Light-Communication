@@ -22,15 +22,12 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.example.skyworthclub.visible_light_communication.utils.Coordinate;
-import com.example.skyworthclub.visible_light_communication.utils.LedLine;
 
 public class LocationActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2{
 
@@ -74,7 +71,7 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         setContentView(R.layout.activity_location);
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 //
-//        mImageView = findViewById(R.id.image);
+        mImageView = findViewById(R.id.image);
 //        mDivideImg = findViewById(R.id.divide_image);
         mCameraView = findViewById(R.id.camera_view);
         mCameraView.setCvCameraViewListener(this);
@@ -128,6 +125,7 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
             mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
 
+
         handlePicture();
 
         mCamera = ((CameraControlView)mCameraView).getCamera();
@@ -136,7 +134,7 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
     private void handlePicture() {
         Mat resMat = new Mat();
         Mat disMat = new Mat();
-        List<Mat> img = new ArrayList<Mat>();
+        List<Mat> imgs = new ArrayList<Mat>();
         List<Coordinate> X = new ArrayList<Coordinate>();
         List<Coordinate> Y = new ArrayList<Coordinate>();
         List<Integer> S = new ArrayList<Integer>();
@@ -151,11 +149,14 @@ public class LocationActivity extends AppCompatActivity implements CameraBridgeV
         //将分割后的led图像保存
         for (int i = 0; i < 3; i++) {
             Mat mat = resMat.submat(Y.get(i).getMin(), Y.get(i).getMax(), X.get(i).getMin(), X.get(i).getMax());
-            img.add(mat);
+            imgs.add(mat);
         }
+        Bitmap bitmap1 = Bitmap.createBitmap(imgs.get(0).cols(), imgs.get(0).rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(imgs.get(0), bitmap1);
+        mImageView.setImageBitmap(bitmap1);
         //遍历分割后的led图像，检测每个led图像的条纹数
-        mLedLineList = ImageProcess.getLedLineCount(img);
-        //判断三个LED是否共线
+        mLedLineList = ImageProcess.getLedLineCount(imgs);
+
         isCollinear(X, Y);
         //计算坐标
         getLocation();

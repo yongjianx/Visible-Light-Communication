@@ -38,14 +38,14 @@
             android:name="com.amap.api.v2.apikey"
             android:value="1a91d3e400a507439966bf75c73a5c0f" />
 
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activities.MainActivity" />
 
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".activity.SaleActivity" />
-        <activity android:name=".activity.PagetwoActivity" />
+        <activity android:name=".activities.SaleActivity" />
+        <activity android:name=".activities.PagetwoActivity" />
         <activity android:name=".activities.ControllerActivity" />
-        <activity android:name=".activity.LocationActivity">
+        <activity android:name=".activities.LocationActivity">
 
         </activity>
 

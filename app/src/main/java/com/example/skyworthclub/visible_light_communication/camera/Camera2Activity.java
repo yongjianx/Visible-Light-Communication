@@ -130,10 +130,10 @@ public class Camera2Activity extends AppCompatActivity{
             Log.e(TAG, "相机设备列表："+CameraIdList);
 
             //通过CameraCharacteristics设置相机的功能,必须检查是否支持
-            characteristics = cameraManager.getCameraCharacteristics(CameraIdList[1]);
+            characteristics = cameraManager.getCameraCharacteristics(CameraIdList[0]);
 
             getParams();
-            cameraManager.openCamera(CameraIdList[1], mCameraDeviceStateCallback, handler);
+            cameraManager.openCamera(CameraIdList[0], mCameraDeviceStateCallback, handler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -237,6 +237,7 @@ public class Camera2Activity extends AppCompatActivity{
             Log.e(TAG, "最小最大曝光时间:" + min + " " + max);
         }catch (Exception e){
             e.printStackTrace();
+            Log.e(TAG, "不支持设置曝光时间");
         }
 
         //支持的STREAM CONFIGURATION

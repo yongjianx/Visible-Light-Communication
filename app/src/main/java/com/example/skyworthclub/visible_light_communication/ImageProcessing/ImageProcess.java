@@ -181,7 +181,8 @@ public class ImageProcess {
         int threhold = 2;
         int lastColor = 0;
         int curColor = 0;
-        for (Mat img : imgs) {
+
+        for (Mat img:imgs) {
             boolean isAWhiteLine = false;
             //取最中间一列
             int middleIndex = img.rows() / 2;
@@ -189,6 +190,7 @@ public class ImageProcess {
             int count = 0;
             for (int i = 0; i < img.cols(); i++) {
                 curColor = (int) img.get(i, middleIndex)[0];
+                Log.d("htout", "color:" + curColor);
                 if (isAWhiteLine) {
                     if (curColor == 255) {
                         sameCount = 0;
@@ -219,6 +221,7 @@ public class ImageProcess {
             ledLineCountList.add(count);
             Log.d("htout", "ledlinecount:" + count);
         }
+
         return ledLineCountList;
     }
 }
